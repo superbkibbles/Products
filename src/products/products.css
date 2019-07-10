@@ -1,41 +1,13 @@
-body{
-    background-color: #031818e8;
-  }
-  
-  h1, p {
-    font-family: Lato;
-    color: azure
-  }
-  .Product-div{
-    float: left;
-    margin: 3.3%
-  }
-  .Product-img{
-    width: 200px;
-    height: 300px;
-  }
-  
-  .Product-button {
-    background-color: #f4511e;
-    border: 2px solid black;
-    color: white;
-    padding: 16px 32px;
-    text-align: center;
-    font-size: 16px;
-    margin: 4px 2px;
-    opacity: 0.6;
-    transition: 0.3s;
-    display: inline-block;
-    text-decoration: none;
-    cursor: pointer;
-    border-radius: 10px
-  }
-  
-  .Product-button:hover {opacity: 1}
+/* h1, p {
+  font-family: Lato;
+  color: azure
+}
 
-  .Product-search{
-      margin: 0 40%
-  }
-  #product-search{
-    border-radius: 5px;
-  }
+.Product-button:hover {opacity: 1}
+
+.Product-search{
+    margin: 0 40%
+}
+#product-search{
+  border-radius: 5px;
+} */
