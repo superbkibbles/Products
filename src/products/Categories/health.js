@@ -4,8 +4,16 @@ import Items from "../product-item";
 
 class Health extends Component
 {
+	componentWillUnmount() {
+		console.log("will ummount")
+	}
+	componentDidMount() {
+		console.log("did mount")
+	}
+
 	render()
 	{
+		console.log("Render");
 		return (
 			<div>
 				<Row>

@@ -1,8 +1,9 @@
 import React, {Component} from "react";
 import axios from "axios";
-import {Button, Row, Col, Nav} from "react-bootstrap";
-import "./products.css"
+import {Row, Col, Nav} from "react-bootstrap";
+import {Route, Switch, NavLink} from "react-router-dom";
 
+import "./products.css"
 import Kitchen from "./Categories/homeKitchen";
 import Baby from "./Categories/baby";
 import Health from "./Categories/health"
@@ -32,6 +33,7 @@ class Products extends Component
 			this.setState({Products: res2.data.products});
 		})
 	}
+
 	// filtering the items with the input
 	filterList (event)
 	{
@@ -51,19 +53,19 @@ class Products extends Component
 		let health = [];
 		let sport = [];
 		this.state.items.map((cat) => {
-			if(cat.bsr_category == "Home & Kitchen")
+			if(cat.bsr_category === "Home & Kitchen")
 			{
 				kitchen.push(cat);
 			}
-			else if (cat.bsr_category == "Health & Personal Care")
+			else if (cat.bsr_category === "Health & Personal Care")
 			{
 				health.push(cat)
 			}
-			else if (cat.bsr_category == "Sports & Outdoors")
+			else if (cat.bsr_category === "Sports & Outdoors")
 			{
 				sport.push(cat);
 			}
-			else if (cat.bsr_category == "Baby Products")
+			else if (cat.bsr_category === "Baby Products")
 			{
 				baby.push(cat)
 			}
@@ -76,40 +78,11 @@ class Products extends Component
 		}
 	}
 
-	changePage(newPage)
-	{
-		this.setState({page: newPage});
-	}
-
-	CheckPage()
-	{
-		if(this.state.page == "health")
-		{
-			return	<Health cats={this.CheckingCategory().health}/>;
-
-		}
-		else if(this.state.page == "kitchen")
-		{
-			return <Kitchen cats={this.CheckingCategory().kitchen}/>;
-
-		}
-		else if (this.state.page == "sport")
-		{
-			return <Sport cats={this.CheckingCategory().sport}/>;
-
-		}
-		else if (this.state.page == "baby")
-		{
-			return <Baby cats={this.CheckingCategory().baby}/>;
-		}
-
-	}
 
 
 	render()
 	{
-		let arr = [...this.state.items];
-		console.log(this.CheckingCategory())
+		// let arr = [...this.state.items];
 		return (
 			<div>
 				<Row>
@@ -119,10 +92,12 @@ class Products extends Component
 						<br/>
 						<br/>
 						<Nav>
-							<li onClick={()=> this.changePage("health")}>health</li>
-							<li onClick={()=> this.changePage("kitchen")}>Kitchen</li>
-							<li onClick={()=> this.changePage("sport")}>sport</li>
-							<li onClick={()=> this.changePage("baby")}>baby</li>
+							<div className="Products-nav">
+								<NavLink exact activeClassName="active-link" to="/health">Health</NavLink>
+								<NavLink exact activeClassName="active-link" to="/kitchen">Kitchen</NavLink>
+								<NavLink exact activeClassName="active-link" to="/sport">Sport</NavLink>
+								<NavLink exact activeClassName="active-link" to="/baby">Baby</NavLink>
+							</div>
 						</Nav>
 					</Col>
 					<Col>
@@ -132,11 +107,13 @@ class Products extends Component
 							<input id="product-search" placeholder="Search..." type="text" onChange={this.filterList.bind(this)}/>
 						</div>
 						<br/>
-						{this.CheckPage()}
-						{/*<Health cats={this.CheckingCategory().health}/>*/}
-						{/*<Kitchen cats={this.CheckingCategory().kitchen}/>*/}
-						{/*<Baby cats={this.CheckingCategory().baby}/>*/}
-						{/*<Sport cats={this.CheckingCategory().sport}/>*/}
+
+						<Switch>
+							<Route exact path="/health" component={()=> <Health cats={this.CheckingCategory().health}/>}/>
+							<Route exact path="/kitchen" component={()=> <Kitchen cats={this.CheckingCategory().kitchen}/>}/>
+							<Route exact path="/sport" component={()=> <Baby cats={this.CheckingCategory().sport}/>}/>
+							<Route exact path="/baby" component={()=> <Sport cats={this.CheckingCategory().baby}/>}/>
+						</Switch>
 					</Col>
 				</Row>
 			</div>
