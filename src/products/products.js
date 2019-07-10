@@ -1,8 +1,13 @@
 import React, {Component} from "react";
-import Items from "./product-item";
 import axios from "axios";
 import {Button, Row, Col, Nav} from "react-bootstrap";
 import "./products.css"
+
+import Kitchen from "./Categories/homeKitchen";
+import Baby from "./Categories/baby";
+import Health from "./Categories/health"
+import Sport from "./Categories/health"
+
 
 class Products extends Component
 {
@@ -14,7 +19,8 @@ class Products extends Component
 		this.state = {
 			Products: [],
 			items: [],
-			search: ""
+			search: "",
+			page: ""
 		}
 	}
 	componentDidMount()
@@ -37,74 +43,73 @@ class Products extends Component
 		this.setState({items: updatedList});
 	}
 
-	// changing
-	toKitchen(e)
+	// rendering the categories and seperating it
+	CheckingCategory()
 	{
-		let HomeKitchen = [];
-		let arr = [...this.state.Products];
-		arr.map(pre => {
-			switch(pre.bsr_category)
+		let baby = [];
+		let kitchen = [];
+		let health = [];
+		let sport = [];
+		this.state.items.map((cat) => {
+			if(cat.bsr_category == "Home & Kitchen")
 			{
-				case "Home & Kitchen":
-					HomeKitchen.push(pre)
-					break;
+				kitchen.push(cat);
+			}
+			else if (cat.bsr_category == "Health & Personal Care")
+			{
+				health.push(cat)
+			}
+			else if (cat.bsr_category == "Sports & Outdoors")
+			{
+				sport.push(cat);
+			}
+			else if (cat.bsr_category == "Baby Products")
+			{
+				baby.push(cat)
 			}
 		})
-		this.setState({items: HomeKitchen});
+		return {
+			health,
+			kitchen,
+			baby,
+			sport
+		}
 	}
-	toSport(e)
+
+	changePage(newPage)
 	{
-		let selected = [];
-		let arr = [...this.state.Products];
-		arr.map(pre => {
-			switch(pre.bsr_category)
-			{
-				case "Sports & Outdoors":
-					selected.push(pre)
-					break;
-			}
-		})
-		this.setState({items: selected});
+		this.setState({page: newPage});
 	}
-	toHealth(e)
+
+	CheckPage()
 	{
-		let selected = [];
-		let arr = [...this.state.Products];
-		arr.map(pre => {
-			switch(pre.bsr_category)
-			{
-				case "Health & Personal Care":
-					selected.push(pre)
-					break;
-			}
-		})
-		this.setState({items: selected});
+		if(this.state.page == "health")
+		{
+			return	<Health cats={this.CheckingCategory().health}/>;
+
+		}
+		else if(this.state.page == "kitchen")
+		{
+			return <Kitchen cats={this.CheckingCategory().kitchen}/>;
+
+		}
+		else if (this.state.page == "sport")
+		{
+			return <Sport cats={this.CheckingCategory().sport}/>;
+
+		}
+		else if (this.state.page == "baby")
+		{
+			return <Baby cats={this.CheckingCategory().baby}/>;
+		}
+
 	}
-	toBaby(e)
-	{
-		let selected = [];
-		let arr = [...this.state.Products];
-		arr.map(pre => {
-			switch(pre.bsr_category)
-			{
-				case "Baby Products":
-					selected.push(pre)
-					break;
-			}
-		})
-		this.setState({items: selected});
-	}
+
 
 	render()
 	{
 		let arr = [...this.state.items];
-		let categories= [];
-		arr.map((cat) => {
-			if(!categories.includes(cat.bsr_category))
-			{
-				categories.push(cat.bsr_category)
-			}
-		})
+		console.log(this.CheckingCategory())
 		return (
 			<div>
 				<Row>
@@ -113,22 +118,11 @@ class Products extends Component
 						<br/>
 						<br/>
 						<br/>
-						<Nav className="flex-column">
-							<div>
-								<Button onClick={this.toKitchen.bind(this)}>Home And Kitchen</Button>
-							</div>
-							<br/>
-							<div>
-								<Button onClick={this.toSport.bind(this)}>Sports</Button>
-							</div>
-							<br/>
-							<div>
-								<Button onClick={this.toHealth.bind(this)}>Health</Button>
-							</div>
-							<br/>
-							<div>
-								<Button onClick={this.toBaby.bind(this)}>Baby Products</Button>
-							</div>
+						<Nav>
+							<li onClick={()=> this.changePage("health")}>health</li>
+							<li onClick={()=> this.changePage("kitchen")}>Kitchen</li>
+							<li onClick={()=> this.changePage("sport")}>sport</li>
+							<li onClick={()=> this.changePage("baby")}>baby</li>
 						</Nav>
 					</Col>
 					<Col>
@@ -138,22 +132,11 @@ class Products extends Component
 							<input id="product-search" placeholder="Search..." type="text" onChange={this.filterList.bind(this)}/>
 						</div>
 						<br/>
-						<Row>
-							{
-								arr.map((prod, index) => {
-									return (
-										<Col s={6} md={4}>
-											<div key={index}>
-												<Items brand={prod.brand}
-													   img={prod.img} price={prod.price}
-													   rate={prod.stars} link={prod.link}
-												/>
-											</div>
-										</Col>
-									)
-								})
-							}
-						</Row>
+						{this.CheckPage()}
+						{/*<Health cats={this.CheckingCategory().health}/>*/}
+						{/*<Kitchen cats={this.CheckingCategory().kitchen}/>*/}
+						{/*<Baby cats={this.CheckingCategory().baby}/>*/}
+						{/*<Sport cats={this.CheckingCategory().sport}/>*/}
 					</Col>
 				</Row>
 			</div>
