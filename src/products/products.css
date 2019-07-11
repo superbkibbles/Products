@@ -1,8 +1,8 @@
-/* h1, p {
+ h1, p {
   font-family: Lato;
-  color: azure
+  /*color: azure*/
 }
-
+/*
 .Product-button:hover {opacity: 1}
 
 .Product-search{

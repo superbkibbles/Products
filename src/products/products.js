@@ -5,6 +5,7 @@ import {Route, Switch, NavLink, Link} from "react-router-dom";
 
 import "./products.css"
 import Items from "./product-item";
+import Home from "./home"
 
 
 class Products extends Component
@@ -19,8 +20,11 @@ class Products extends Component
 			filterProducts:[],
 			filterProductscpy:[],
 			search: "",
-			page: ""
+			currentpage: ""
 		}
+	}
+	componentWillMount() {
+		console.log("will mount");
 	}
 
 	componentDidMount()
@@ -28,6 +32,7 @@ class Products extends Component
 		axios.get("https://demo8421975.mockable.io/products").then(res2=>{
 			this.setState({Products: res2.data.products});
 		})
+		console.log("did mount")
 	}
 
 	// filtering the items with the input
@@ -35,6 +40,7 @@ class Products extends Component
 	{
 		this.setState({search: event.target.value})
 		let updatedList = this.state.filterProductscpy;
+
 		updatedList = updatedList.filter((item)=>{
 			return item.brand.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
 		})
@@ -54,16 +60,17 @@ class Products extends Component
 	clickedCategory(group)
 	{
 		// this.setState({currentPage: group})
-		let item = this.state.Products.filter(res => res.bsr_category == group)
-		this.setState({filterProducts: item})
-		this.setState({filterProductscpy: item})
-		// this.setState({page: item.bsr_category})
+		let item = this.state.Products.filter(res => res.bsr_category === group);
+		this.setState({filterProducts: item});
+		this.setState({filterProductscpy: item});
+		this.setState({currentpage: group.replace(/\s/g, '')})
+
+		console.log("windowed", window.location.pathname);
+		console.log(this.state.currentpage);
 	}
 
 	render()
 	{
-		console.log(this.state.filterProducts)
-		console.log(this.state.search)
 		return (
 			<div>
 				<Row>
@@ -75,11 +82,13 @@ class Products extends Component
 						<Nav>
 							<div className="Products-nav">
 								{
-									this.GetCategoriesNames().map(res => {
-										return <NavLink exact activeClassName="active-link"
-														onClick={()=> this.clickedCategory(res)}
-														to={res}>{res}
-										</NavLink>
+									this.GetCategoriesNames().map((res, i) => {
+										return <Link
+											key={i}
+											onClick={()=> this.clickedCategory(res)}
+											to={res} >
+											{res}
+										</Link>
 									})
 								}
 							</div>
@@ -89,20 +98,23 @@ class Products extends Component
 						<div className="Product-search">
 							<h1>Search Products</h1>
 							<label htmlFor="product-search"/>
-							<input id="product-search" placeholder="Search..." type="text" onChange={this.filterList.bind(this)}/>
+							<input id="product-search" placeholder="Search..." type="text"
+									 onChange={this.filterList.bind(this)}/>
 						</div>
 						<br/>
+						<Route exact path="/" component={Home} />
 							{
-								this.state.filterProducts.map(data=>{
+								this.state.filterProducts.map((data, i)=>{
 									return (
-										<Switch>
-											<Route exact path={this.state.filterProductscpy.bsr_category} render={()=>
+										<Switch key={i}>
+											<Route exact path={this.state.filterProductscpy.bsr_category} render={(routeProps)=>
 												<Items brand={data.brand} img={data.img} price={data.price}
 														 rate={data.stars} link={data.link}
 														 search={this.state.search}
+														 staff={routeProps}
 												/>}
 											/>
-										</Switch>
+										 </Switch>
 									)}
 								)
 							}
@@ -114,3 +126,5 @@ class Products extends Component
 }
 
 export default Products;
+
+// to={{pathname: res.replace(/\s/g, ''), search:`?search=${this.state.search}`}} >
