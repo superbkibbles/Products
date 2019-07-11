@@ -8,22 +8,23 @@ class Kitchen extends Component
 	{
 		return (
 			<div>
-				<Row>
-					{
-						this.props.cats.map((prod, index) => {
-							return (
-								<Col s={6} md={6} key={index}>
-									<div>
-										<Items brand={prod.brand}
-											   img={prod.img} price={prod.price}
-											   rate={prod.stars} link={prod.link}
-										/>
-									</div>
-								</Col>
-							)
-						})
-					}
-				</Row>
+				<p>hello</p>
+				{/*<Row>*/}
+				{/*	{*/}
+				{/*		this.props.cats.map((prod, index) => {*/}
+				{/*			return (*/}
+				{/*				<Col s={6} md={6} key={index}>*/}
+				{/*					<div>*/}
+				{/*						<Items brand={prod.brand}*/}
+				{/*							   img={prod.img} price={prod.price}*/}
+				{/*							   rate={prod.stars} link={prod.link}*/}
+				{/*						/>*/}
+				{/*					</div>*/}
+				{/*				</Col>*/}
+				{/*			)*/}
+				{/*		})*/}
+				{/*	}*/}
+				{/*</Row>*/}
 			</div>
 		)
 	}

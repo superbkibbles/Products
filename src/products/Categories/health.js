@@ -8,28 +8,30 @@ class Health extends Component
 		console.log("will ummount")
 	}
 	componentDidMount() {
-		console.log("did mount")
+		console.log(this.props.search)
 	}
 
 	render()
 	{
+		console.log("you are here")
 		console.log("Render");
 		return (
 			<div>
+				<h1>fgd</h1>
 				<Row>
 				{
-					this.props.cats.map((prod, index) => {
-						return (
+					// this.props.cats.map((prod, index) => {
+					// 	return (
 							<Col s={6} md={6} key={index}>
 								<div>
-									<Items brand={prod.brand}
+									<Items brand={this.props.cats}
 										   img={prod.img} price={prod.price}
 										   rate={prod.stars} link={prod.link}
 									/>
 								</div>
 							</Col>
-						)
-					})
+					// 	)
+					// })
 				}
 				</Row>
 			</div>

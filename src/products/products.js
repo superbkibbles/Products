@@ -1,13 +1,10 @@
 import React, {Component} from "react";
 import axios from "axios";
 import {Row, Col, Nav} from "react-bootstrap";
-import {Route, Switch, NavLink} from "react-router-dom";
+import {Route, Switch, NavLink, Link} from "react-router-dom";
 
 import "./products.css"
-import Kitchen from "./Categories/homeKitchen";
-import Baby from "./Categories/baby";
-import Health from "./Categories/health"
-import Sport from "./Categories/health"
+import Items from "./product-item";
 
 
 class Products extends Component
@@ -19,17 +16,16 @@ class Products extends Component
 
 		this.state = {
 			Products: [],
-			items: [],
+			filterProducts:[],
+			filterProductscpy:[],
 			search: "",
 			page: ""
 		}
 	}
+
 	componentDidMount()
 	{
-		axios.get("https://demo8421975.mockable.io/products").then(res => {
-			this.setState({items: res.data.products});
-			return res;
-		}).then(res2=>{
+		axios.get("https://demo8421975.mockable.io/products").then(res2=>{
 			this.setState({Products: res2.data.products});
 		})
 	}
@@ -38,51 +34,36 @@ class Products extends Component
 	filterList (event)
 	{
 		this.setState({search: event.target.value})
-		var updatedList = this.state.Products;
+		let updatedList = this.state.filterProductscpy;
 		updatedList = updatedList.filter((item)=>{
 			return item.brand.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
 		})
-		this.setState({items: updatedList});
+		this.setState({filterProducts: updatedList});
 	}
 
-	// rendering the categories and seperating it
-	CheckingCategory()
+	// Getting Categories Names
+	GetCategoriesNames()
 	{
-		let baby = [];
-		let kitchen = [];
-		let health = [];
-		let sport = [];
-		this.state.items.map((cat) => {
-			if(cat.bsr_category === "Home & Kitchen")
-			{
-				kitchen.push(cat);
-			}
-			else if (cat.bsr_category === "Health & Personal Care")
-			{
-				health.push(cat)
-			}
-			else if (cat.bsr_category === "Sports & Outdoors")
-			{
-				sport.push(cat);
-			}
-			else if (cat.bsr_category === "Baby Products")
-			{
-				baby.push(cat)
-			}
-		})
-		return {
-			health,
-			kitchen,
-			baby,
-			sport
-		}
+		let products = this.state.Products;
+		let resultCategoriesArray = [...new Set(products.map((data, i, arr) => data.bsr_category))];
+
+		return resultCategoriesArray;
 	}
 
-
+	// checking for clicked category
+	clickedCategory(group)
+	{
+		// this.setState({currentPage: group})
+		let item = this.state.Products.filter(res => res.bsr_category == group)
+		this.setState({filterProducts: item})
+		this.setState({filterProductscpy: item})
+		// this.setState({page: item.bsr_category})
+	}
 
 	render()
 	{
-		// let arr = [...this.state.items];
+		console.log(this.state.filterProducts)
+		console.log(this.state.search)
 		return (
 			<div>
 				<Row>
@@ -93,27 +74,38 @@ class Products extends Component
 						<br/>
 						<Nav>
 							<div className="Products-nav">
-								<NavLink exact activeClassName="active-link" to="/health">Health</NavLink>
-								<NavLink exact activeClassName="active-link" to="/kitchen">Kitchen</NavLink>
-								<NavLink exact activeClassName="active-link" to="/sport">Sport</NavLink>
-								<NavLink exact activeClassName="active-link" to="/baby">Baby</NavLink>
+								{
+									this.GetCategoriesNames().map(res => {
+										return <NavLink exact activeClassName="active-link"
+														onClick={()=> this.clickedCategory(res)}
+														to={res}>{res}
+										</NavLink>
+									})
+								}
 							</div>
 						</Nav>
 					</Col>
-					<Col>
+					<Col md={8}>
 						<div className="Product-search">
 							<h1>Search Products</h1>
 							<label htmlFor="product-search"/>
 							<input id="product-search" placeholder="Search..." type="text" onChange={this.filterList.bind(this)}/>
 						</div>
 						<br/>
-
-						<Switch>
-							<Route exact path="/health" component={()=> <Health cats={this.CheckingCategory().health}/>}/>
-							<Route exact path="/kitchen" component={()=> <Kitchen cats={this.CheckingCategory().kitchen}/>}/>
-							<Route exact path="/sport" component={()=> <Baby cats={this.CheckingCategory().sport}/>}/>
-							<Route exact path="/baby" component={()=> <Sport cats={this.CheckingCategory().baby}/>}/>
-						</Switch>
+							{
+								this.state.filterProducts.map(data=>{
+									return (
+										<Switch>
+											<Route exact path={this.state.filterProductscpy.bsr_category} render={()=>
+												<Items brand={data.brand} img={data.img} price={data.price}
+														 rate={data.stars} link={data.link}
+														 search={this.state.search}
+												/>}
+											/>
+										</Switch>
+									)}
+								)
+							}
 					</Col>
 				</Row>
 			</div>
@@ -122,5 +114,3 @@ class Products extends Component
 }
 
 export default Products;
-
-
