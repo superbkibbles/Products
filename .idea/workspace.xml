@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="83f2c80e-792a-45d9-b351-ede463064e71" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/products/home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/products/home.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/products/product-item.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/products/product-item.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/products/products.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/products/products.js" afterDir="false" />
     </list>
@@ -15,14 +13,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/products/product-item.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="600">
-              <caret line="57" column="67" selection-start-line="57" selection-start-column="67" selection-end-line="57" selection-end-column="67" />
-              <caret line="58" column="60" selection-start-line="58" selection-start-column="60" selection-end-line="58" selection-end-column="60" />
-              <caret line="59" column="60" selection-start-line="59" selection-start-column="60" selection-end-line="59" selection-end-column="60" />
-              <caret line="61" column="59" selection-start-line="61" selection-start-column="59" selection-end-line="61" selection-end-column="59" />
+            <state relative-caret-position="446">
+              <caret line="45" column="27" lean-forward="true" selection-start-line="45" selection-start-column="27" selection-end-line="45" selection-end-column="27" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -30,13 +25,14 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/products/products.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="350">
-              <caret line="132" column="59" selection-start-line="132" selection-start-column="59" selection-end-line="132" selection-end-column="59" />
+            <state relative-caret-position="358">
+              <caret line="112" selection-start-line="112" selection-end-line="118" selection-end-column="28" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
+                <element signature="n#!!block;n#clickedCategory#0;n#Products#0" />
               </folding>
             </state>
           </provider>
@@ -82,6 +78,7 @@
       <find>currentPath</find>
       <find>Qsearch</find>
       <find>currentpage</find>
+      <find>test</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -97,8 +94,8 @@
         <option value="$PROJECT_DIR$/src/products/Categories/health.js" />
         <option value="$PROJECT_DIR$/src/products/products.css" />
         <option value="$PROJECT_DIR$/src/products/home.js" />
-        <option value="$PROJECT_DIR$/src/products/products.js" />
         <option value="$PROJECT_DIR$/src/products/product-item.js" />
+        <option value="$PROJECT_DIR$/src/products/products.js" />
       </list>
     </option>
   </component>
@@ -176,12 +173,12 @@
       <workItem from="1562751618810" duration="158000" />
       <workItem from="1562751793199" duration="21977000" />
       <workItem from="1562835122048" duration="23437000" />
-      <workItem from="1562922216620" duration="8312000" />
+      <workItem from="1562922216620" duration="15903000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="53939000" />
+    <option name="totallyTimeSpent" value="61530000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="27" width="1853" height="1053" extended-state="6" />
@@ -247,25 +244,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/products/products.js">
+    <entry file="file://$PROJECT_DIR$/src/products/product-item.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="132" column="59" selection-start-line="132" selection-start-column="59" selection-end-line="132" selection-end-column="59" />
+        <state relative-caret-position="446">
+          <caret line="45" column="27" lean-forward="true" selection-start-line="45" selection-start-column="27" selection-end-line="45" selection-end-column="27" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/products/product-item.js">
+    <entry file="file://$PROJECT_DIR$/src/products/products.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="57" column="67" selection-start-line="57" selection-start-column="67" selection-end-line="57" selection-end-column="67" />
-          <caret line="58" column="60" selection-start-line="58" selection-start-column="60" selection-end-line="58" selection-end-column="60" />
-          <caret line="59" column="60" selection-start-line="59" selection-start-column="60" selection-end-line="59" selection-end-column="60" />
-          <caret line="61" column="59" selection-start-line="61" selection-start-column="59" selection-end-line="61" selection-end-column="59" />
+        <state relative-caret-position="358">
+          <caret line="112" selection-start-line="112" selection-end-line="118" selection-end-column="28" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
+            <element signature="n#!!block;n#clickedCategory#0;n#Products#0" />
           </folding>
         </state>
       </provider>

@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import "./product-item.css";
 import {Button} from "react-bootstrap";
-import axios from "axios";
 
 class Items extends Component
 {
@@ -23,20 +22,15 @@ class Items extends Component
 
 	componentWillMount() {
 		// this.setState({items: this.props.item});
+		let deleted = this.props.stuff.location.search.split("").splice(9).join("")
+		console.log(deleted);
+		this.setState({search: deleted})
+		console.log("seacrcg", this.state.search)
 	}
 
 	componentDidMount()
 	{
-		// this.setState({items: this.props.item})
-		// axios.get("https://demo8421975.mockable.io/products").then(res=>{
-		// 	let items = res.data.products.filter(res2 => res2.bsr_category.split(' ').join('') === this.state.currentCategory);
-		// 	this.setState({products: items})
-		// 	return res.data.products;
-		// }).then((products)=> {
-		// 	let items = products.filter(res2 => res2.bsr_category.split(' ').join('') === this.state.currentCategory);
-		// 	this.setState({items: items})
-		// })
-		// this.setState({items: this.prop.item})
+
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
@@ -44,9 +38,10 @@ class Items extends Component
 
 	render()
 	{
-		let arr = this.props.item
+
+		let arr = this.props.item;
 		let items = arr.filter(res2 => res2.bsr_category.split(' ').join('') === this.state.currentCategory);
-		console.log(items)
+
 		return (
 			<div className="">
 				<ul>

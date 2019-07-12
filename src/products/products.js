@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import axios from "axios";
-import {Row, Col, Nav} from "react-bootstrap";
+import {Row, Col, Nav, Button} from "react-bootstrap";
 import {Route, Switch, NavLink, Link} from "react-router-dom";
 
 import "./products.css"
@@ -22,7 +22,8 @@ class Products extends Component
 			filterProductscpy:[],
 			categoryArr: [],
 			search: "",
-			currentpage: ""
+			currentpage: "",
+			urlQuery: ""
 		}
 	}
 	componentWillMount() {
@@ -46,20 +47,16 @@ class Products extends Component
 	// filtering the items on user input
 	filterList (event)
 	{
-		// this.setState({search: event.target.value})
-		// let updatedList = this.state.Products;
-		//
+		this.setState({search: event.target.value})
+		let updatedList = this.state.Products;
+
 		// updatedList = updatedList.filter((item)=>{
 		// 	return item.brand.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
 		// })
 		// this.setState({items: updatedList});
-		this.setState({search: event.target.value})
-		let updatedList = this.state.Products;
 
-		updatedList = updatedList.filter((item)=>{
-			return item.brand.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
-		})
-		this.setState({items: updatedList});
+		let query = `/search=${event.target.value}`
+		this.setState({urlQuery: query})
 	}
 
 	clickedCategory(group)
@@ -69,6 +66,17 @@ class Products extends Component
 		this.setState({filterProducts: item});
 		this.setState({filterProductscpy: item});
 		this.setState({currentpage: group.split(' ').join('')})
+	}
+
+	changeQuery(va)
+	{
+		va.preventDefault();
+		let updatedList = this.state.Products;
+
+		updatedList = updatedList.filter((item)=>{
+			return item.brand.toLowerCase().search(this.state.search.toLowerCase()) !== -1;
+		})
+		this.setState({items: updatedList});
 	}
 
 	render()
@@ -89,7 +97,7 @@ class Products extends Component
 											<div key={i}>
 												<Link
 													onClick={()=> this.clickedCategory(res)}
-													to={`/${res.split(' ').join('')}`} >
+													to={{pathname: `/${res.split(' ').join('')}`, search:`${this.state.urlQuery}`}} >
 													{res}
 												</Link>
 											</div>
@@ -102,40 +110,29 @@ class Products extends Component
 					<Col md={8}>
 						<div className="Product-search">
 							<h1>Search Products</h1>
-							<label htmlFor="product-search"/>
-							<input id="product-search" placeholder="Search..." type="text"
-									 onChange={this.filterList.bind(this)}/>
+							<form onSubmit={this.changeQuery.bind(this)}>
+								<label htmlFor="product-search"/>
+								<input id="product-search" placeholder="Search..." type="text"
+										 value={this.state.search}
+										 onChange={this.filterList.bind(this)}/>
+								<Button onClick={(va)=> this.changeQuery(va)}>search</Button>
+							</form>
 						</div>
 						<br/>
-							{/*{*/}
-							{/*	this.state.filterProducts.map((data, i)=>{*/}
-							{/*		return (*/}
-							{/*			<Switch key={i}>*/}
-							{/*				{	console.log(this.state.currentpage ==data.bsr_category.split(' ').join(''))}*/}
-							{/*				{console.log(data.bsr_category.split(' ').join(''))}*/}
-							{/*				<Route exact path={`/cates/${this.state.currentpage}`} render={(routeProps)=>*/}
-							{/*					<Items brand={data.brand} img={data.img} price={data.price}*/}
-							{/*							 rate={data.stars} link={data.link}*/}
-							{/*							 search={this.state.search}*/}
-							{/*							 staff={routeProps}*/}
-							{/*					/>}*/}
-							{/*				/>*/}
-							{/*			 </Switch>*/}
-							{/*		)}*/}
-							{/*	)*/}
-							{/*}*/}
 						<Route exact path="/" component={Home}/>
 						{
 							this.state.categoryArr.map((res, i)=>{
 								return(
 									//send the items
-									<Route key={i} exact path={`/${res.split(' ').join('')}`} render={() =>
-										<Items item={this.state.items} search={this.state.search} category={res}/>}
+									<Route key={i} exact path={`/${res.split(' ').join('')}`} render={(routeProps) =>
+										<Items item={this.state.items}
+												 search={this.state.search}
+												 stuff={routeProps} category={res}
+										/>}
 									/>
 								)
 							})
 						}
-
 					</Col>
 				</Row>
 			</div>
@@ -145,4 +142,3 @@ class Products extends Component
 
 export default Products;
 
-// to={{pathname: res.replace(/\s/g, ''), search:`?search=${this.state.search}`}} >
