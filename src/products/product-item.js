@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import "./product-item.css";
 import {Button} from "react-bootstrap";
+import axios from "axios";
 
 class Items extends Component
 {
@@ -9,7 +10,7 @@ class Items extends Component
 		super(props);
 
 		this.state = {
-			search: this.props.search,
+			search: this.props.stuff.location.search.split("").splice(9).join(""),
 			products: [],
 			items: this.props.item,
 			currentCategory: this.props.category.split(' ').join('')
@@ -22,10 +23,11 @@ class Items extends Component
 
 	componentWillMount() {
 		// this.setState({items: this.props.item});
-		let deleted = this.props.stuff.location.search.split("").splice(9).join("")
-		console.log(deleted);
-		this.setState({search: deleted})
-		console.log("seacrcg", this.state.search)
+
+		// let deleted = this.props.stuff.location.search.split("").splice(9).join("")
+		// console.log(deleted);
+		// this.setState({search: deleted})
+		// console.log("seacrcg", this.state.search)
 	}
 
 	componentDidMount()
@@ -36,12 +38,19 @@ class Items extends Component
 	componentDidUpdate(prevProps, prevState, snapshot) {
 	}
 
-	render()
+	GetItem()
 	{
-
 		let arr = this.props.item;
 		let items = arr.filter(res2 => res2.bsr_category.split(' ').join('') === this.state.currentCategory);
+		return items;
+	}
 
+	render()
+	{
+		let items = this.GetItem().filter((item)=>{
+		return item.brand.toLowerCase().search(this.state.search.toLowerCase()) !== -1;
+	})
+		console.log(items)
 		return (
 			<div className="">
 				<ul>

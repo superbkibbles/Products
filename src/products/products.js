@@ -49,14 +49,17 @@ class Products extends Component
 	{
 		this.setState({search: event.target.value})
 		let updatedList = this.state.Products;
+		this.setState({
+			urlQuery: this.search.value
+		})
 
 		// updatedList = updatedList.filter((item)=>{
 		// 	return item.brand.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
 		// })
 		// this.setState({items: updatedList});
 
-		let query = `/search=${event.target.value}`
-		this.setState({urlQuery: query})
+		// let query = `/search=${event.target.value}`
+		// this.setState({urlQuery: query})
 	}
 
 	clickedCategory(group)
@@ -77,10 +80,12 @@ class Products extends Component
 			return item.brand.toLowerCase().search(this.state.search.toLowerCase()) !== -1;
 		})
 		this.setState({items: updatedList});
+		va.target.value = ""
 	}
 
 	render()
 	{
+		console.log(this.state.urlQuery)
 		return (
 			<div>
 				<Row>
@@ -97,7 +102,7 @@ class Products extends Component
 											<div key={i}>
 												<Link
 													onClick={()=> this.clickedCategory(res)}
-													to={{pathname: `/${res.split(' ').join('')}`, search:`${this.state.urlQuery}`}} >
+													to={{pathname: `/${res.split(' ').join('')}`, search:`?search=${this.state.search}`}} >
 													{res}
 												</Link>
 											</div>
@@ -113,6 +118,7 @@ class Products extends Component
 							<form onSubmit={this.changeQuery.bind(this)}>
 								<label htmlFor="product-search"/>
 								<input id="product-search" placeholder="Search..." type="text"
+										 ref={input => this.search = input}
 										 value={this.state.search}
 										 onChange={this.filterList.bind(this)}/>
 								<Button onClick={(va)=> this.changeQuery(va)}>search</Button>
