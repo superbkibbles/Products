@@ -17,56 +17,58 @@ class Products extends Component
 
 		this.state = {
 			Products: [],
+			items: [],
 			filterProducts:[],
 			filterProductscpy:[],
+			categoryArr: [],
 			search: "",
 			currentpage: ""
 		}
 	}
 	componentWillMount() {
-		console.log("will mount");
+		// console.log("will mount");
 	}
 
 	componentDidMount()
 	{
-		axios.get("https://demo8421975.mockable.io/products").then(res2=>{
-			this.setState({Products: res2.data.products});
+		axios.get("https://demo8421975.mockable.io/products").then(res=>{
+			let resultCategoriesArray = [...new Set(res.data.products.map((data, i, arr) => data.bsr_category))];
+			this.setState({categoryArr: [...resultCategoriesArray]})
+			return res.data.products;
+		}).then(res2=>{
+			this.setState({Products: res2});
+			return res2;
+		}).then(res3=>{
+			this.setState({items: res3})
 		})
-		console.log("did mount")
 	}
 
-	// filtering the items with the input
+	// filtering the items on user input
 	filterList (event)
 	{
+		// this.setState({search: event.target.value})
+		// let updatedList = this.state.Products;
+		//
+		// updatedList = updatedList.filter((item)=>{
+		// 	return item.brand.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
+		// })
+		// this.setState({items: updatedList});
 		this.setState({search: event.target.value})
-		let updatedList = this.state.filterProductscpy;
+		let updatedList = this.state.Products;
 
 		updatedList = updatedList.filter((item)=>{
 			return item.brand.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
 		})
-		this.setState({filterProducts: updatedList});
+		this.setState({items: updatedList});
 	}
 
-	// Getting Categories Names
-	GetCategoriesNames()
-	{
-		let products = this.state.Products;
-		let resultCategoriesArray = [...new Set(products.map((data, i, arr) => data.bsr_category))];
-
-		return resultCategoriesArray;
-	}
-
-	// checking for clicked category
 	clickedCategory(group)
 	{
 		// this.setState({currentPage: group})
 		let item = this.state.Products.filter(res => res.bsr_category === group);
 		this.setState({filterProducts: item});
 		this.setState({filterProductscpy: item});
-		this.setState({currentpage: group.replace(/\s/g, '')})
-
-		console.log("windowed", window.location.pathname);
-		console.log(this.state.currentpage);
+		this.setState({currentpage: group.split(' ').join('')})
 	}
 
 	render()
@@ -82,13 +84,16 @@ class Products extends Component
 						<Nav>
 							<div className="Products-nav">
 								{
-									this.GetCategoriesNames().map((res, i) => {
-										return <Link
-											key={i}
-											onClick={()=> this.clickedCategory(res)}
-											to={res} >
-											{res}
-										</Link>
+									this.state.categoryArr.map((res, i) => {
+										return (
+											<div key={i}>
+												<Link
+													onClick={()=> this.clickedCategory(res)}
+													to={`/${res.split(' ').join('')}`} >
+													{res}
+												</Link>
+											</div>
+										)
 									})
 								}
 							</div>
@@ -102,22 +107,35 @@ class Products extends Component
 									 onChange={this.filterList.bind(this)}/>
 						</div>
 						<br/>
-						<Route exact path="/" component={Home} />
-							{
-								this.state.filterProducts.map((data, i)=>{
-									return (
-										<Switch key={i}>
-											<Route exact path={this.state.filterProductscpy.bsr_category} render={(routeProps)=>
-												<Items brand={data.brand} img={data.img} price={data.price}
-														 rate={data.stars} link={data.link}
-														 search={this.state.search}
-														 staff={routeProps}
-												/>}
-											/>
-										 </Switch>
-									)}
+							{/*{*/}
+							{/*	this.state.filterProducts.map((data, i)=>{*/}
+							{/*		return (*/}
+							{/*			<Switch key={i}>*/}
+							{/*				{	console.log(this.state.currentpage ==data.bsr_category.split(' ').join(''))}*/}
+							{/*				{console.log(data.bsr_category.split(' ').join(''))}*/}
+							{/*				<Route exact path={`/cates/${this.state.currentpage}`} render={(routeProps)=>*/}
+							{/*					<Items brand={data.brand} img={data.img} price={data.price}*/}
+							{/*							 rate={data.stars} link={data.link}*/}
+							{/*							 search={this.state.search}*/}
+							{/*							 staff={routeProps}*/}
+							{/*					/>}*/}
+							{/*				/>*/}
+							{/*			 </Switch>*/}
+							{/*		)}*/}
+							{/*	)*/}
+							{/*}*/}
+						<Route exact path="/" component={Home}/>
+						{
+							this.state.categoryArr.map((res, i)=>{
+								return(
+									//send the items
+									<Route key={i} exact path={`/${res.split(' ').join('')}`} render={() =>
+										<Items item={this.state.items} search={this.state.search} category={res}/>}
+									/>
 								)
-							}
+							})
+						}
+
 					</Col>
 				</Row>
 			</div>
