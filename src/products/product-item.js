@@ -15,7 +15,6 @@ class Items extends Component
 		this.state = {
 			search: this.props.stuff.location.search.split("").splice(8).join(""),
 			input: "",
-			products: [],
 			items: this.props.item,
 			currentCategory: this.props.category.split(' ').join('')
 		}
@@ -37,16 +36,15 @@ class Items extends Component
 		this.setState({input: event.target.value});
 	}
 
-	changeQuery(event)
-	{
+	changeQuery(event) {
 		this.setState({search: this.state.input.toString()});
 
 		event.preventDefault();
 		history.push({
 			pathname: this.state.currentCategory,
-			search:`?search=${this.state.input}`
+			search: `?search=${this.state.input}`
 		})
-		// this.setState({input: ""});
+		this.setState({input: ""});
 	}
 
 
@@ -58,11 +56,11 @@ class Items extends Component
 				<form onSubmit={this.changeQuery.bind(this)}>
 					<label htmlFor="product-search"/>
 					<input id="product-search" placeholder="Search..." type="text"
-							 // ref={input => this.search = input}
 							 value={this.state.input}
 							 onChange={this.filterList.bind(this)}
 					/>
 				</form>
+				<p className="Product-item-hide">you are searching for {this.state.search}</p>
 			</div>
 		)
 	}

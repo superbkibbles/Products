@@ -7,3 +7,12 @@
     width: 200px;
     height: 300px;
 }
+
+Product-item-hide {
+    /*display: none;*/
+    background: blue
+}
+
+Product-item-hide {
+    display: block;
+}
